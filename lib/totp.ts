@@ -1,41 +1,62 @@
+/**
+ * @module
+ * Module contains function for generate and validate {@link https://datatracker.ietf.org/doc/html/rfc6238 TOTP}
+ *
+ * @example
+ * ```ts
+ * import {totp} from '@maks11060/otp'
+ *
+ * const secret = crypto.getRandomValues(new Uint8Array(20))
+ *
+ * const code = await topt({secret})
+ * ```
+ */
+
 import {DT, generateKey} from './hotp.ts'
 
-interface TotpOptions {
-  /** The recommended secret length is above 20 bytes */
+export interface TotpOptions {
+  /** The recommended secret length is above `20` bytes */
   secret: ArrayBuffer
-  /** Use current time with step 30 second */
-  counter?: number
   /** @default 6 */
   digits?: 6 | 7 | 8
+  /** Use current time with step 30 second @default getTimeCounter(30) */
+  counter?: number
   /** @default 30 // sec */
   stepWindow?: number
-}
-
-/**
- * Get time with step
- * @param step WindowStep in seconds
- * @returns Time Interval
- */
-export const getTimeCounter = (step: number) =>
-  Math.floor(Date.now() / (step * 1000))
-
-export const topt = async (options: TotpOptions) => {
-  options.digits ??= 6
-  options.stepWindow ??= 30
-  options.counter ??= getTimeCounter(options.stepWindow)
-
-  const key = await generateKey(options.secret, options.counter)
-  const num = DT(key)
-  return (num % 10 ** options.digits).toString().padStart(options.digits, '0')
+  /** @default `SHA-1` */
+  alg?: 'SHA-1' | 'SHA-256' | 'SHA-512'
 }
 
 export interface TotpValidateOptions extends TotpOptions {
+  /** `totp` code */
   code: string
   /** @default 3 // window = (3 * stepWindow) */
   window?: number
 }
 
-export const toptValidate = async (options: TotpValidateOptions) => {
+/**
+ * Get time interval with step
+ * @param step WindowStep in seconds. default: `30`
+ * @returns Time Interval
+ */
+export const getTimeCounter = (step: number = 30): number =>
+  Math.floor(Date.now() / (step * 1000))
+
+/** Get `totp` code */
+export const topt = async (options: TotpOptions): Promise<string> => {
+  options.digits ??= 6
+  options.stepWindow ??= 30
+  options.counter ??= getTimeCounter(options.stepWindow)
+
+  const key = await generateKey(options.secret, options.counter, options.alg)
+  const num = DT(key)
+  return (num % 10 ** options.digits).toString().padStart(options.digits, '0')
+}
+
+/** Validate `totp` code */
+export const toptValidate = async (
+  options: TotpValidateOptions
+): Promise<boolean> => {
   options.window ??= 3
   options.stepWindow ??= 30
   options.counter ??= getTimeCounter(options.stepWindow)

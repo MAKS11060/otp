@@ -1,11 +1,11 @@
-import {assertEquals} from 'https://deno.land/std/assert/assert_equals.ts'
-import {createOtpAuthUri} from './otpauth.ts'
+import {assertEquals} from 'jsr:@std/assert'
+import {otpauth} from './otpauth.ts'
 
 const encoder = new TextEncoder()
 const secret = encoder.encode('12345678901234567890') // test secret: https://datatracker.ietf.org/doc/html/rfc6238
 
-Deno.test('createOtpAuthUri', async () => {
-  const uri = createOtpAuthUri({
+Deno.test('create otpauth uri', async () => {
+  const uri = otpauth({
     secret,
     type: 'totp',
     label: 'label',

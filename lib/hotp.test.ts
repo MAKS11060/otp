@@ -1,5 +1,5 @@
-import {assert, assertEquals} from 'https://deno.land/std/assert/mod.ts'
-import {encodeHex} from 'https://deno.land/std/encoding/hex.ts'
+import {encodeHex} from '@std/encoding/hex'
+import {assert, assertEquals} from 'jsr:@std/assert'
 import {generateKey, hotp} from './hotp.ts'
 
 const encoder = new TextEncoder()

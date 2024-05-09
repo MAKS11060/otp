@@ -1,4 +1,4 @@
-import {encodeBase32} from 'https://deno.land/std/encoding/base32.ts'
+import {encodeBase32} from '@std/encoding/base32'
 
 type Hopt = {
   type?: 'hotp'
@@ -19,31 +19,42 @@ type Topt = {
 /** https://github.com/google/google-authenticator/wiki/Key-Uri-Format */
 export type OtpAuthUriOptions = {
   /**
+   * The label is used to identify which account a key is associated with.
    * {@link https://github.com/google/google-authenticator/wiki/Key-Uri-Format#label Label format}
    */
   label: string
+  /** The recommended secret length is above `20` bytes */
   secret: ArrayBuffer
+  /** The issuer parameter is a string value indicating the provider or service this account  */
   issuer?: string
   /** Default `totp` */
   type?: 'totp' | 'hotp'
   /** Default `SHA1` */
-  algorithm?: 'SHA1' | 'SHA256' | 'SHA512'
+  alg?: 'SHA1' | 'SHA256' | 'SHA512'
   /** Default `6` */
   digits?: 6 | 7 | 8
 } & (Topt | Hopt)
 
 /**
- * Generate `otpauth` uri
+ * Generate {@link https://github.com/google/google-authenticator/wiki/Key-Uri-Format otpauth} Uri
  * @param options
  * @returns {URL} URI otpauth
+ *
+ * @example
+ * ```ts
+ * import {otpauth} from "@maks11060/otp"
+ *
+ * // Create otpauth uri
+ * otpauth({secret, issuer: 'App name', label: '@user'}).toString() // otpauth://totp/lable?secret=00&algorithm=SHA1&issuer=App+name
+ * ```
  */
-export const createOtpAuthUri = (options: OtpAuthUriOptions) => {
+export const otpauth = (options: OtpAuthUriOptions): URL => {
   options.type ??= 'totp'
-  options.algorithm ??= 'SHA1'
+  options.alg ??= 'SHA1'
 
   const uri = new URL(`otpauth://${options.type}/${options.label}`)
   uri.searchParams.set('secret', encodeBase32(options.secret))
-  uri.searchParams.set('algorithm', options.algorithm)
+  uri.searchParams.set('algorithm', options.alg)
 
   if (options.issuer) uri.searchParams.set('issuer', options.issuer)
 

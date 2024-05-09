@@ -1,5 +1,9 @@
+#!/usr/bin/env -S deno run -A --watch
+
+import {delay} from 'jsr:@std/async'
+import {getTimeCounter} from './mod.ts'
+
 const getTime = () => Math.floor(Date.now() / 1000)
-const getCounter = (step = 30) => Math.floor(getTime() / step)
 
 /**
  * @example
@@ -15,7 +19,9 @@ export const timeLeftCounter = (
 ) => {
   const int = setInterval(() => {
     cb(
-      Math.ceil(stepWindow - (getTime() - getCounter(stepWindow) * stepWindow))
+      Math.ceil(
+        stepWindow - (getTime() - getTimeCounter(stepWindow) * stepWindow)
+      )
     )
   }, 1000)
 
@@ -29,7 +35,7 @@ const makeTimeLeftCounter = (stepWindow: number = 30) => {
       const write = () => {
         controller.enqueue(
           Math.ceil(
-            stepWindow - (getTime() - getCounter(stepWindow) * stepWindow)
+            stepWindow - (getTime() - getTimeCounter(stepWindow) * stepWindow)
           )
         )
       }
@@ -42,6 +48,23 @@ const makeTimeLeftCounter = (stepWindow: number = 30) => {
   })
 }
 
-for await (const item of makeTimeLeftCounter(30)) {
-  console.log(item)
+export const timeIter = (stepWindow: number = 30) => {
+  return {
+    async *[Symbol.asyncIterator]() {
+      while (true) {
+        yield Math.ceil(
+          stepWindow - (getTime() - getTimeCounter(stepWindow) * stepWindow)
+        )
+        await delay(1000)
+      }
+    },
+  }
 }
+
+// for await (const time of timeIter()) {
+//   console.log(time)
+// }
+
+// for await (const item of makeTimeLeftCounter(30)) {
+//   console.log(item)
+// }
