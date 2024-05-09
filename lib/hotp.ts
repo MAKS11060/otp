@@ -8,7 +8,7 @@
  *
  * const secret = crypto.getRandomValues(new Uint8Array(20))
  *
- * const code = await hopt({secret})
+ * const code = await hopt({secret, counter: 1})
  * ```
  */
 
@@ -22,7 +22,17 @@ interface HotpOptions {
   alg?: 'SHA-1' | 'SHA-256' | 'SHA-512'
 }
 
-/** Get `hotp` code */
+/**
+ * Get `hotp` code
+ * @example
+ * ```
+ * import {hotp} from '@maks11060/otp'
+ *
+ * const secret = crypto.getRandomValues(new Uint8Array(20))
+ *
+ * const code = await hopt({secret, counter: 1})
+ * ```
+ */
 export const hotp = async (options: HotpOptions): Promise<string> => {
   options.digits ??= 6
 

@@ -42,7 +42,17 @@ export interface TotpValidateOptions extends TotpOptions {
 export const getTimeCounter = (step: number = 30): number =>
   Math.floor(Date.now() / (step * 1000))
 
-/** Get `totp` code */
+/**
+ * Get `totp` code
+ * @example
+ * ```ts
+ * import {totp} from '@maks11060/otp'
+ *
+ * const secret = crypto.getRandomValues(new Uint8Array(20))
+ *
+ * const code = await topt({secret})
+ * ```
+ */
 export const topt = async (options: TotpOptions): Promise<string> => {
   options.digits ??= 6
   options.stepWindow ??= 30
@@ -53,7 +63,18 @@ export const topt = async (options: TotpOptions): Promise<string> => {
   return (num % 10 ** options.digits).toString().padStart(options.digits, '0')
 }
 
-/** Validate `totp` code */
+/**
+ * Validate `totp` code
+ *  * @example
+ * ```ts
+ * import {totp, toptValidate} from '@maks11060/otp'
+ *
+ * const secret = crypto.getRandomValues(new Uint8Array(20))
+ *
+ * const code = await topt({secret})
+ * await toptValidate({secret, code}) // true
+ * ```
+ */
 export const toptValidate = async (
   options: TotpValidateOptions
 ): Promise<boolean> => {
