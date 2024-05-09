@@ -1,6 +1,6 @@
 {
   "name": "@maks11060/otp",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "lock": false,
   "tasks": {
     "dev": "deno run --unstable-hmr main.ts",
@@ -10,9 +10,7 @@
     "@std/encoding": "jsr:@std/encoding@^0.224.0"
   },
   "exports": {
-    ".": "./mod.ts",
-    "./hotp": "./lib/hotp.ts",
-    "./totp": "./lib/totp.ts"
+    ".": "./mod.ts"
   },
   "publish": {
     "exclude": [
