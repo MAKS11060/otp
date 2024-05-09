@@ -28,7 +28,7 @@ await toptValidate({secret, code}) // true
 otpauth({secret, issuer: 'App name', label: '@user'}).toString() // otpauth://totp/lable?secret=00&algorithm=SHA1&issuer=App+name
 ```
 
-## Apps tested
+## Supported apps
 |                    Apps |  Algs  | Period | Digits |
 | ----------------------: | :----: | :----: | :----: |
 |    Google Authenticator | `SHA1` |  `30`  |  `6`   |
