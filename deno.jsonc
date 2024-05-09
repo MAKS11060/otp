@@ -15,7 +15,8 @@
   "publish": {
     "exclude": [
       ".github",
-      "*.test.ts"
+      "test",
+      "**/*.test.ts"
     ]
   }
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno run -A --watch
 
 import {delay} from 'jsr:@std/async'
-import {getTimeCounter} from './mod.ts'
+import {getTimeCounter} from '../mod.ts'
 
 const getTime = () => Math.floor(Date.now() / 1000)
 
