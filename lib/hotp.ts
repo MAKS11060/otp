@@ -1,17 +1,3 @@
-/**
- * @module
- * Module contains function for generate {@link https://datatracker.ietf.org/doc/html/rfc4226 TOTP}
- *
- * @example
- * ```
- * import {hotp} from '@maks11060/otp'
- *
- * const secret = crypto.getRandomValues(new Uint8Array(20))
- *
- * const code = await hopt({secret, counter: 1})
- * ```
- */
-
 interface HotpOptions {
   /** The recommended secret length is above `20` bytes */
   secret: ArrayBuffer
@@ -30,7 +16,7 @@ interface HotpOptions {
  *
  * const secret = crypto.getRandomValues(new Uint8Array(20))
  *
- * const code = await hopt({secret, counter: 1})
+ * const code = await hotp({secret, counter: 1})
  * ```
  */
 export const hotp = async (options: HotpOptions): Promise<string> => {

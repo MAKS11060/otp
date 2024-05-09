@@ -1,17 +1,3 @@
-/**
- * @module
- * Generate Steam guard `totp`
- *
- * @example
- * ```ts
- * import {decodeBase64} from '@std/encoding/base64'
- * import {generateKey, getTimeCounter, steamTotp} from '@maks11060/otp'
- *
- * const steamKey = decodeBase64('STEAM_SHARED_SECRET') // Decode key to ArrayBuffer
- * steamTotp(await generateKey(steamKey, getTimeCounter())) // VWFH3
- * ```
- */
-
 import {DT} from './hotp.ts'
 
 const chars = '23456789BCDFGHJKMNPQRTVWXY'

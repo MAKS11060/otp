@@ -1,17 +1,3 @@
-/**
- * @module
- * Module contains function for generate and validate {@link https://datatracker.ietf.org/doc/html/rfc6238 TOTP}
- *
- * @example
- * ```ts
- * import {totp} from '@maks11060/otp'
- *
- * const secret = crypto.getRandomValues(new Uint8Array(20))
- *
- * const code = await topt({secret})
- * ```
- */
-
 import {DT, generateKey} from './hotp.ts'
 
 export interface TotpOptions {
@@ -50,10 +36,10 @@ export const getTimeCounter = (step: number = 30): number =>
  *
  * const secret = crypto.getRandomValues(new Uint8Array(20))
  *
- * const code = await topt({secret})
+ * const code = await totp({secret})
  * ```
  */
-export const topt = async (options: TotpOptions): Promise<string> => {
+export const totp = async (options: TotpOptions): Promise<string> => {
   options.digits ??= 6
   options.stepWindow ??= 30
   options.counter ??= getTimeCounter(options.stepWindow)
@@ -67,15 +53,15 @@ export const topt = async (options: TotpOptions): Promise<string> => {
  * Validate `totp` code
  *  * @example
  * ```ts
- * import {totp, toptValidate} from '@maks11060/otp'
+ * import {totp, totpValidate} from '@maks11060/otp'
  *
  * const secret = crypto.getRandomValues(new Uint8Array(20))
  *
- * const code = await topt({secret})
- * await toptValidate({secret, code}) // true
+ * const code = await totp({secret})
+ * await totpValidate({secret, code}) // true
  * ```
  */
-export const toptValidate = async (
+export const totpValidate = async (
   options: TotpValidateOptions
 ): Promise<boolean> => {
   options.window ??= 3
@@ -83,7 +69,7 @@ export const toptValidate = async (
   options.counter ??= getTimeCounter(options.stepWindow)
 
   const check = async (i: number) =>
-    options.code === (await topt({...options, counter: options.counter! + i}))
+    options.code === (await totp({...options, counter: options.counter! + i}))
 
   for (let i = 0; i < options.window; i++) {
     if ((await check(i)) || (await check(-i - 1))) {

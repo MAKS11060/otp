@@ -8,7 +8,7 @@
  *
  * @example
  * ```ts
- * import {otpauth, topt, toptValidate} from '@maks11060/otp'
+ * import {otpauth, totp, totpValidate} from '@maks11060/otp'
  *
  * const secret = crypto.getRandomValues(new Uint8Array(20))
  * const code = await topt({secret}) // 123456
@@ -19,10 +19,28 @@
  * // Validate totp with time window
  * await toptValidate({secret, code}) // true
  * ```
+ *
+ * @example
+ * ```ts
+ * import {hotp} from '@maks11060/otp'
+ *
+ * const secret = crypto.getRandomValues(new Uint8Array(20))
+ *
+ * const code = await hotp({secret, counter: 1})
+ * ```
+ *
+ * @example
+ * ```ts
+ * import {decodeBase64} from '@std/encoding/base64'
+ * import {generateKey, getTimeCounter, steamTotp} from '@maks11060/otp'
+ *
+ * const steamKey = decodeBase64('STEAM_SHARED_SECRET') // Decode key to ArrayBuffer
+ * steamTotp(await generateKey(steamKey, getTimeCounter())) // VWFH3
+ * ```
  */
 
 export {generateKey, hotp} from './lib/hotp.ts'
 export {otpauth} from './lib/otpauth.ts'
 export {steamTotp} from './lib/steamTotp.ts'
-export {getTimeCounter, topt, toptValidate} from './lib/totp.ts'
+export {getTimeCounter, totp, totpValidate} from './lib/totp.ts'
 

@@ -1,7 +1,7 @@
-import {decodeBase64} from "https://deno.land/std/encoding/base64.ts"
-import {steamTotp} from "../lib/steamTotp.ts"
-import {getTimeCounter, topt} from '../lib/totp.ts'
-import {generateKey} from "../mod.ts"
+import { decodeBase64 } from "https://deno.land/std/encoding/base64.ts"
+import { steamTotp } from "../lib/steamTotp.ts"
+import { getTimeCounter, totp } from '../lib/totp.ts'
+import { generateKey } from "../mod.ts"
 
 export const ToptReadable = (secret: ArrayBuffer) => {
   let currentTime = 0
@@ -13,7 +13,7 @@ export const ToptReadable = (secret: ArrayBuffer) => {
           const t = getTimeCounter(30)
           if (currentTime < t) {
             currentTime = t
-            controller.enqueue(await topt({secret, counter: t}))
+            controller.enqueue(await totp({secret, counter: t}))
           }
         }, 500)
       },
