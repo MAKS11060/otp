@@ -1,11 +1,12 @@
 # otp • Collection of one-time password algorithms
 
 [![JSR][JSR badge]][JSR]
-<!-- Add test badge -->
+[![CI workflow][CI workflow badge]][CI workflow]
 
 [JSR]: https://jsr.io/@maks11060/otp
 [JSR badge]: https://jsr.io/badges/@maks11060/otp
-
+[CI workflow]: https://github.com/MAKS11060/otp/actions/workflows/ci.yml
+[CI workflow badge]: https://github.com/maks11060/opt/actions/workflows/ci.yml/badge.svg
 
 ## Supported Algorithms
 - [HOTP](https://datatracker.ietf.org/doc/html/rfc4226)
