@@ -15,12 +15,12 @@
 
 ## How to use
 ```ts
-import {otpauth, topt, toptValidate} from "@maks11060/otp"
+import {otpauth, totp, toptValidate} from "@maks11060/otp"
 
 const secret = crypto.getRandomValues(new Uint8Array(20))
 
 // Generate totp code
-const code = await topt({secret}) // 123456
+const code = await totp({secret}) // 123456
 
 // Validate totp with time window
 await toptValidate({secret, code}) // true
