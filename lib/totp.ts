@@ -16,7 +16,11 @@ export interface TotpOptions {
 export interface TotpValidateOptions extends TotpOptions {
   /** `totp` code */
   code: string
-  /** @default 3 // window = (3 * stepWindow) */
+  /**
+   * Time correction for validate `totp`
+   *
+   * @default 3 // 3 * (stepWindow = 30) // +- 90 sec
+   */
   window?: number
 }
 
@@ -50,8 +54,9 @@ export const totp = async (options: TotpOptions): Promise<string> => {
 }
 
 /**
- * Validate `totp` code
- *  * @example
+ * Check the `totp` code with time correction
+ *
+ * @example
  * ```ts
  * import {totp, totpValidate} from '@maks11060/otp'
  *
