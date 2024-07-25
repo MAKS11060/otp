@@ -57,7 +57,7 @@ export interface TotpValidateOptions extends TotpOptions {
  * @returns {number} The current time interval.
  */
 export const getTimeCounter = (step: number = 30): number =>
-  Math.floor(Date.now() / (step * 1000))
+  Math.floor(Date.now() / 1000 / step)
 
 /**
  * Generates a TOTP code based on the provided options.
