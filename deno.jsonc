@@ -8,10 +8,12 @@
     "publish-dry-run": "deno publish --dry-run"
   },
   "imports": {
+    "@std/async": "jsr:@std/async@1",
     "@std/encoding": "jsr:@std/encoding@1"
   },
   "exports": {
-    ".": "./mod.ts"
+    ".": "./mod.ts",
+    "./readable": "./src/stream/readable.ts"
   },
   "publish": {
     "exclude": [

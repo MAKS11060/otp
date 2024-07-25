@@ -75,6 +75,7 @@ export const getTimeCounter = (step: number = 30): number =>
  * ```
  */
 export const totp = async (options: TotpOptions): Promise<string> => {
+  options = {...options} // remove external reference
   options.digits ??= 6
   options.stepWindow ??= 30
   options.counter ??= getTimeCounter(options.stepWindow)

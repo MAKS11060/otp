@@ -13,7 +13,7 @@
 - [TOTP](https://datatracker.ietf.org/doc/html/rfc6238)
 - SteamTOTP
 
-## How to use
+## Usage
 ```ts
 import {otpauth, totp, toptValidate} from "@maks11060/otp"
 
@@ -28,6 +28,16 @@ await toptValidate({secret, code}) // true
 // Create otpauth uri
 otpauth({secret, issuer: 'App name', label: '@user'}).toString()
 // otpauth://totp/lable?secret=00&algorithm=SHA1&issuer=App+name
+```
+
+### Use Readable
+```ts
+import {readableTotp} from '@maks11060/otp/readable'
+
+const secret = crypto.getRandomValues(new Uint8Array(20))
+for await (const otp of readableTotp({secret})) {
+  console.log(otp)
+}
 ```
 
 ## Supported apps

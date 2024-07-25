@@ -39,13 +39,14 @@
  * ```
  */
 
-export {generateKey, hotp, type HotpOptions} from './lib/hotp.ts'
-export {otpauth, type OtpAuthUriOptions} from './lib/otpauth.ts'
-export {steamTotp} from './lib/steamTotp.ts'
+export {generateKey, hotp, type HotpOptions} from './src/hotp.ts'
+export {otpauth, type OtpAuthUriOptions} from './src/otpauth.ts'
+export {steamTotp} from './src/steamTotp.ts'
 export {
   getTimeCounter,
   totp,
   totpValidate,
   type TotpOptions,
-  type TotpValidateOptions,
-} from './lib/totp.ts'
+  type TotpValidateOptions
+} from './src/totp.ts'
+
