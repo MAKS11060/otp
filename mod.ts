@@ -41,7 +41,7 @@
 
 export {generateKey, hotp, type HotpOptions} from './src/hotp.ts'
 export {otpauth, type OtpAuthUriOptions} from './src/otpauth.ts'
-export {steamTotp} from './src/steamTotp.ts'
+export {steamTotp, type SteamTotpOptions} from './src/steamTotp.ts'
 export {
   getTimeCounter,
   totp,

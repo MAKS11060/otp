@@ -8,12 +8,10 @@ export interface SteamTotpOptions {
    * The secret key to use for generating the `SteamTOTP` code.
    */
   secret: ArrayBuffer
-
   /**
    * The counter value to use for generating the `SteamTOTP` code.
    */
   counter?: number
-
   /**
    * The time offset to use for generating the `SteamTOTP` code, in seconds.
    * @default 0

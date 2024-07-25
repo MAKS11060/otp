@@ -1,8 +1,17 @@
 import {delay} from '@std/async/delay'
 import {totp, type TotpOptions} from '../totp.ts'
 
+/**
+ * An object containing the remaining time and the `TOTP` code.
+ */
 export interface ReadableTotpResult {
+  /**
+   * The remaining time until the next `TOTP` code is generated, in seconds.
+   */
   timeLeft: number
+  /**
+   * The generated `TOTP` code.
+   */
   code: string
 }
 
@@ -13,7 +22,7 @@ const getRemainingTime = (stepWindow: number) => {
 }
 
 /**
- * Generates a stream of `TOTP` codes based on the provided options.
+ * Generates a readable stream of `TOTP` codes based on the provided options.
  *
  * @param {TotpOptions} options - The options to use for generating the `TOTP` codes.
  * @returns {ReadableStream<ReadableTotpResult>} A readable stream of objects containing the remaining time and the `TOTP` code.

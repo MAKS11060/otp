@@ -1,8 +1,17 @@
 import {delay} from '@std/async/delay'
 import {steamTotp, type SteamTotpOptions} from '../steamTotp.ts'
 
+/**
+ * An object containing the remaining time and the `SteamTOTP` code.
+ */
 export interface ReadableSteamTotpResult {
+  /**
+   * The remaining time until the next `SteamTOTP` code is generated, in seconds.
+   */
   timeLeft: number
+  /**
+   * The generated `SteamTOTP` code.
+   */
   code: string
 }
 

@@ -70,7 +70,6 @@ export const getTimeCounter = (step: number = 30): number =>
  * import {totp} from '@maks11060/otp'
  *
  * const secret = crypto.getRandomValues(new Uint8Array(20))
- *
  * const code = await totp({secret})
  * ```
  */
