@@ -1,4 +1,4 @@
-name: ci
+name: CI
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
           deno-version: v1.x
 
       - name: Run tests
-        run: deno test
+        run: deno task test
 
   publish-dry-run:
     runs-on: ubuntu-latest
@@ -40,4 +40,4 @@ jobs:
           deno-version: v1.x
 
       - name: Publish (dry run)
-        run: deno publish --dry-run
+        run: deno task publish-dry-run

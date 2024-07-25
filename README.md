@@ -26,7 +26,8 @@ const code = await totp({secret}) // 123456
 await toptValidate({secret, code}) // true
 
 // Create otpauth uri
-otpauth({secret, issuer: 'App name', label: '@user'}).toString() // otpauth://totp/lable?secret=00&algorithm=SHA1&issuer=App+name
+otpauth({secret, issuer: 'App name', label: '@user'}).toString()
+// otpauth://totp/lable?secret=00&algorithm=SHA1&issuer=App+name
 ```
 
 ## Supported apps

@@ -1,15 +1,15 @@
 name: Publish
 
 on:
-  release:
-    types: [published]
+  push:
+    tags: 'v*.*.*'
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      id-token: write # The OIDC ID token is used for authentication with JSR.
+      contents: write
+      id-token: write
 
     steps:
       - name: Clone repository
@@ -20,5 +20,13 @@ jobs:
         with:
           deno-version: v1.x
 
+      - name: Set version from release tag
+        uses: maks11060/deno-publish-version@v1
+        with:
+          tag: ${{ github.ref_name }}
+
       - name: Publish to JSR
-        run: deno publish
+        run: deno publish --allow-dirty
+
+      - name: Release
+        uses: softprops/action-gh-release@v2

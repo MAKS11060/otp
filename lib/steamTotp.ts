@@ -2,7 +2,11 @@ import {DT} from './hotp.ts'
 
 const chars = '23456789BCDFGHJKMNPQRTVWXY'
 
-/** Get `SteamTotp` code
+/**
+ * Generates a `SteamTOTP` code based on the provided key.
+ *
+ * @param {ArrayBuffer} key - The key to use for generating the code.
+ * @returns {string} The generated SteamTOTP code.
  *
  * @example
  * ```ts

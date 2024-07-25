@@ -1,17 +1,36 @@
-interface HotpOptions {
-  /** The recommended secret length is above `20` bytes */
+/**
+ * Options for generating a `HOTP` code.
+ */
+export interface HotpOptions {
+  /**
+   * The secret key to use for generating the `HOTP` code.
+   * The recommended secret length is above `20` bytes.
+   */
   secret: ArrayBuffer
+  /**
+   * The counter value to use for generating the `HOTP` code.
+   */
   counter: number
-  /** @default 6 */
-  digits?: 6 | 7 | 8,
-  /** @default `SHA-1` */
+  /**
+   * The number of digits to use for the `HOTP` code.
+   * @default 6
+   */
+  digits?: 6 | 7 | 8
+  /**
+   * The hashing algorithm to use for generating the `HOTP` code.
+   * @default 'SHA-1'
+   */
   alg?: 'SHA-1' | 'SHA-256' | 'SHA-512'
 }
 
 /**
- * Get `hotp` code
+ * Generates a `HOTP` code based on the provided options.
+ *
+ * @param {HotpOptions} options - The options to use for generating the HOTP code.
+ * @returns {Promise<string>} A promise that resolves to the generated HOTP code.
+ *
  * @example
- * ```
+ * ```ts
  * import {hotp} from '@maks11060/otp'
  *
  * const secret = crypto.getRandomValues(new Uint8Array(20))
@@ -28,10 +47,20 @@ export const hotp = async (options: HotpOptions): Promise<string> => {
 }
 
 /**
- * Generate key
- * @param secret
- * @param counter `C` or `getTimeCounter()`
- * @returns counter signed by the secret
+ * Generates a key based on the provided secret and counter.
+ *
+ * @param {ArrayBuffer} secret - The secret key to use for generating the key.
+ * @param {number} counter - The counter value to use for generating the key.
+ * @param {HotpOptions['alg']} [alg='SHA-1'] - The hashing algorithm to use for generating the key. Defaults to 'SHA-1'.
+ * @returns {Promise<ArrayBuffer>} A promise that resolves to the generated key.
+ *
+ * @example
+ * ```ts
+ * import {generateKey} from '@maks11060/otp'
+ *
+ * const secret = crypto.getRandomValues(new Uint8Array(20))
+ * const key = await generateKey(secret, 0)
+ * ```
  */
 export const generateKey = async (
   secret: ArrayBuffer,
@@ -56,7 +85,11 @@ const padCounter = (counter: number): ArrayBuffer => {
   return buffer
 }
 
-/** Dynamic Truncation */
+/**
+ * Performs dynamic truncation on the provided hash value.
+ * @param {ArrayBuffer} HS - The hash value to truncate.
+ * @returns {number} The truncated hash value.
+ */
 export const DT = (HS: ArrayBuffer): number => {
   const bView = new DataView(HS)
   const offset = bView.getUint8(HS.byteLength - 1) & 0xf
