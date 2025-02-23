@@ -3,13 +3,18 @@
   "version": "0.0.0",
   "lock": false,
   "tasks": {
-    "ci": "deno task publish-dry-run --allow-dirty && deno task test",
-    "test": "deno test -A",
-    "publish-dry-run": "deno publish --dry-run"
+    "test": "deno test",
+    "publish-dry-run": "deno publish --dry-run",
+    "ci": {
+      "dependencies": [
+        "test",
+        "publish-dry-run"
+      ]
+    }
   },
   "imports": {
-    "@std/async": "jsr:@std/async@1",
-    "@std/encoding": "jsr:@std/encoding@1"
+    "@std/async": "jsr:@std/async@^1.0.10",
+    "@std/encoding": "jsr:@std/encoding@^1.0.7"
   },
   "exports": {
     ".": "./mod.ts",

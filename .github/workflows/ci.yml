@@ -16,28 +16,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Deno
-        uses: denoland/setup-deno@v1
-        with:
-          deno-version: v1.x
+        uses: denoland/setup-deno@v2
 
-      - name: Run tests
-        run: deno task test
+      - name: CI
+        run: deno task ci
 
-  publish-dry-run:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    permissions:
-      contents: read
-      id-token: write
+      # - name: Run tests
+      #   run: deno test
 
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
-
-      - name: Set up Deno
-        uses: denoland/setup-deno@v1
-        with:
-          deno-version: v1.x
-
-      - name: Publish (dry run)
-        run: deno task publish-dry-run
+      # - name: Publish (dry run)
+      #   run: deno publish --dry-run
