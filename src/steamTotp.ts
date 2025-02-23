@@ -7,7 +7,7 @@ export interface SteamTotpOptions {
   /**
    * The secret key to use for generating the `SteamTOTP` code.
    */
-  secret: ArrayBuffer
+  secret: ArrayBuffer | Uint8Array
   /**
    * The counter value to use for generating the `SteamTOTP` code.
    */

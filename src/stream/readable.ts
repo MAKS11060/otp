@@ -1,6 +1,4 @@
 /**
- * @module
- *
  * A module for generating readable streams of `TOTP` and `SteamTOTP` codes.
  *
  * @example
@@ -12,6 +10,8 @@
  *   console.log(otp)
  * }
  * ```
+ *
+ * @module
  */
 
 export type {HotpOptions} from '../hotp.ts'

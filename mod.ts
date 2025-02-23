@@ -1,6 +1,6 @@
 /**
- * @module
- * OTP Collection of one-time password algorithms
+ * # **OTP**
+ * ### Collection of one-time password algorithms
  *
  * - {@link https://datatracker.ietf.org/doc/html/rfc4226 HOTP}
  * - {@link https://datatracker.ietf.org/doc/html/rfc6238 TOTP}
@@ -37,7 +37,9 @@
  * const steamKey = decodeBase64('STEAM_SHARED_SECRET') // Decode key to ArrayBuffer
  * steamTotp(await generateKey(steamKey, getTimeCounter())) // VWFH3
  * ```
- */
+ *
+ * @module
+*/
 
 export {generateKey, hotp, type HotpOptions} from './src/hotp.ts'
 export {otpauth, type OtpAuthUriOptions} from './src/otpauth.ts'

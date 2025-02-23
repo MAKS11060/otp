@@ -9,7 +9,7 @@ export interface TotpOptions {
    *
    * The recommended secret length is above `20` bytes.
    */
-  secret: ArrayBuffer
+  secret: ArrayBuffer | Uint8Array
   /**
    * The number of digits to use for the `TOTP` code.
    * @default 6
@@ -60,10 +60,10 @@ export const getTimeCounter = (step: number = 30): number =>
   Math.floor(Date.now() / 1000 / step)
 
 /**
- * Generates a TOTP code based on the provided options.
+ * Generates a `TOTP` code based on the provided options.
  *
- * @param {TotpOptions} options - The options to use for generating the TOTP code.
- * @returns {Promise<string>} A promise that resolves to the generated TOTP code.
+ * @param {TotpOptions} options - The options to use for generating the `TOTP` code.
+ * @returns {Promise<string>} A promise that resolves to the generated `TOTP` code.
  *
  * @example
  * ```ts
@@ -85,7 +85,7 @@ export const totp = async (options: TotpOptions): Promise<string> => {
 }
 
 /**
- * Validates a TOTP code based on the provided options.
+ * Validates a `TOTP` code based on the provided options.
  *
  * @param {TotpValidateOptions} options - The options to use for validating the TOTP code.
  * @returns {Promise<boolean>} A promise that resolves to `true` if the code is valid, `false` otherwise.

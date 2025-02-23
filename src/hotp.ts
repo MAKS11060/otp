@@ -6,7 +6,7 @@ export interface HotpOptions {
    * The secret key to use for generating the `HOTP` code.
    * The recommended secret length is above `20` bytes.
    */
-  secret: ArrayBuffer
+  secret: ArrayBuffer | Uint8Array
   /**
    * The counter value to use for generating the `HOTP` code.
    */
@@ -49,7 +49,7 @@ export const hotp = async (options: HotpOptions): Promise<string> => {
 /**
  * Generates a key based on the provided secret and counter.
  *
- * @param {ArrayBuffer} secret - The secret key to use for generating the key.
+ * @param {ArrayBuffer|Uint8Array} secret - The secret key to use for generating the key.
  * @param {number} counter - The counter value to use for generating the key.
  * @param {HotpOptions['alg']} [alg='SHA-1'] - The hashing algorithm to use for generating the key. Defaults to 'SHA-1'.
  * @returns {Promise<ArrayBuffer>} A promise that resolves to the generated key.
@@ -63,7 +63,7 @@ export const hotp = async (options: HotpOptions): Promise<string> => {
  * ```
  */
 export const generateKey = async (
-  secret: ArrayBuffer,
+  secret: ArrayBuffer | Uint8Array,
   counter: number,
   alg: HotpOptions['alg'] = 'SHA-1'
 ): Promise<ArrayBuffer> => {
@@ -75,7 +75,7 @@ export const generateKey = async (
     ['sign']
   )
 
-  return await crypto.subtle.sign('HMAC', key, padCounter(counter))
+  return crypto.subtle.sign('HMAC', key, padCounter(counter))
 }
 
 const padCounter = (counter: number): ArrayBuffer => {
@@ -87,11 +87,11 @@ const padCounter = (counter: number): ArrayBuffer => {
 
 /**
  * Performs dynamic truncation on the provided hash value.
- * @param {ArrayBuffer} HS - The hash value to truncate.
+ * @param {ArrayBuffer|Uint8Array} HS - The hash value to truncate.
  * @returns {number} The truncated hash value.
  */
-export const DT = (HS: ArrayBuffer): number => {
-  const bView = new DataView(HS)
+export const DT = (HS: ArrayBuffer | Uint8Array): number => {
+  const bView = new DataView(new Uint8Array(HS).buffer)
   const offset = bView.getUint8(HS.byteLength - 1) & 0xf
   return bView.getUint32(offset) & 0x7fff_ffff
 }

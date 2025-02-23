@@ -1,9 +1,9 @@
 import {encodeBase32} from '@std/encoding/base32'
 
 /**
- * Options for generating a HOTP code.
+ * Options for generating a `HOTP` code.
  */
-interface Hopt {
+interface Hotp {
   type?: 'hotp'
   /**
    * The counter value to use for generating the `HOTP` code.
@@ -14,9 +14,9 @@ interface Hopt {
 }
 
 /**
- * Options for generating a TOTP code.
+ * Options for generating a `TOTP` code.
  */
-interface Topt {
+interface Totp {
   type?: 'totp'
   /**
    * The time interval in seconds to use for generating the `TOTP` code.
@@ -42,7 +42,7 @@ export type OtpAuthUriOptions = {
    *
    * The recommended secret length is above `20` bytes.
    */
-  secret: ArrayBuffer
+  secret: ArrayBuffer | Uint8Array
   /**
    * The issuer parameter indicating the provider or service this account is associated with.
    */
@@ -62,7 +62,7 @@ export type OtpAuthUriOptions = {
    * @default `6`
    */
   digits?: 6 | 7 | 8
-} & (Topt | Hopt)
+} & (Totp | Hotp)
 
 /**
  * Generate {@link https://github.com/google/google-authenticator/wiki/Key-Uri-Format otpauth} URI

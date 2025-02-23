@@ -1,4 +1,5 @@
-# otp • Collection of one-time password algorithms
+# **OTP**
+### Collection of one-time password algorithms
 
 [![JSR][JSR badge]][JSR]
 [![CI][CI badge]][CI]
