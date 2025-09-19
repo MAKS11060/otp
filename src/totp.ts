@@ -62,7 +62,7 @@ export interface TotpValidateOptions extends TotpOptions {
  * @param stepWindow The time interval in seconds to use for generating the `TOTP` code. Default `30`
  * @returns remaining time `TOTP`
  */
-export const getRemainingTime = (stepWindow: number = 30) => {
+export const getRemainingTime = (stepWindow: number = 30): number => {
   return stepWindow - (Math.floor(Date.now() / 1000) % stepWindow)
 }
 
