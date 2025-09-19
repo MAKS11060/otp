@@ -1,21 +1,27 @@
+import type {Uint8Array_} from './types.ts'
+
 /**
  * Options for generating a `HOTP` code.
  */
 export interface HotpOptions {
   /**
    * The secret key to use for generating the `HOTP` code.
-   * The recommended secret length is above `20` bytes.
+   *
+   * The recommended `secret` length is above `20` bytes.
    */
-  secret: ArrayBuffer | Uint8Array
+  secret: ArrayBuffer | Uint8Array_
+
   /**
    * The counter value to use for generating the `HOTP` code.
    */
   counter: number
+
   /**
    * The number of digits to use for the `HOTP` code.
    * @default 6
    */
   digits?: 6 | 7 | 8
+
   /**
    * The hashing algorithm to use for generating the `HOTP` code.
    * @default 'SHA-1'
@@ -26,8 +32,8 @@ export interface HotpOptions {
 /**
  * Generates a `HOTP` code based on the provided options.
  *
- * @param {HotpOptions} options - The options to use for generating the HOTP code.
- * @returns {Promise<string>} A promise that resolves to the generated HOTP code.
+ * @param options - The options to use for generating the HOTP code.
+ * @returns A promise that resolves to the generated HOTP code.
  *
  * @example
  * ```ts
@@ -49,30 +55,31 @@ export const hotp = async (options: HotpOptions): Promise<string> => {
 /**
  * Generates a key based on the provided secret and counter.
  *
- * @param {ArrayBuffer|Uint8Array} secret - The secret key to use for generating the key.
- * @param {number} counter - The counter value to use for generating the key.
- * @param {HotpOptions['alg']} [alg='SHA-1'] - The hashing algorithm to use for generating the key. Defaults to 'SHA-1'.
- * @returns {Promise<ArrayBuffer>} A promise that resolves to the generated key.
+ * @param secret - The secret key to use for generating the key.
+ * @param counter - The counter value to use for generating the key.
+ * @param alg - The hashing algorithm to use for generating the key. Defaults to `'SHA-1'`.
+ * @returns A promise that resolves to the generated key.
  *
  * @example
  * ```ts
  * import {generateKey} from '@maks11060/otp'
  *
  * const secret = crypto.getRandomValues(new Uint8Array(20))
- * const key = await generateKey(secret, 0)
+ * const counter = 0
+ * const key = await generateKey(secret, counter)
  * ```
  */
 export const generateKey = async (
-  secret: ArrayBuffer | Uint8Array,
+  secret: ArrayBuffer | Uint8Array_,
   counter: number,
-  alg: HotpOptions['alg'] = 'SHA-1'
+  alg: HotpOptions['alg'] = 'SHA-1',
 ): Promise<ArrayBuffer> => {
   const key = await crypto.subtle.importKey(
     'raw',
     secret,
     {name: 'HMAC', hash: alg},
     true,
-    ['sign']
+    ['sign'],
   )
 
   return crypto.subtle.sign('HMAC', key, padCounter(counter))
@@ -87,10 +94,10 @@ const padCounter = (counter: number): ArrayBuffer => {
 
 /**
  * Performs dynamic truncation on the provided hash value.
- * @param {ArrayBuffer|Uint8Array} HS - The hash value to truncate.
- * @returns {number} The truncated hash value.
+ * @param HS - The hash value to truncate.
+ * @returns The truncated hash value.
  */
-export const DT = (HS: ArrayBuffer | Uint8Array): number => {
+export const DT = (HS: ArrayBuffer | Uint8Array_): number => {
   const bView = new DataView(new Uint8Array(HS).buffer)
   const offset = bView.getUint8(HS.byteLength - 1) & 0xf
   return bView.getUint32(offset) & 0x7fff_ffff

@@ -14,7 +14,7 @@ Deno.test('totp digits 8', async () => {
   assertEquals(code, '94287082')
 })
 
-Deno.test('totp validate', async () => {
+Deno.test('totpValidate', async () => {
   const code = '94287082'
 
   assert(await totpValidate({secret, counter: 1, digits: 8, code}))

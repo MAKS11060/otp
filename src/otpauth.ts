@@ -1,10 +1,12 @@
 import {encodeBase32} from '@std/encoding/base32'
+import type {Uint8Array_} from './types.ts'
 
 /**
  * Options for generating a `HOTP` code.
  */
 interface Hotp {
   type?: 'hotp'
+
   /**
    * The counter value to use for generating the `HOTP` code.
    *
@@ -18,12 +20,13 @@ interface Hotp {
  */
 interface Totp {
   type?: 'totp'
+
   /**
    * The time interval in seconds to use for generating the `TOTP` code.
    *
    * Only required if `type` is `'totp'`.
    * @default 30 seconds
-   * */
+   */
   period?: number
 }
 
@@ -37,26 +40,31 @@ export type OtpAuthUriOptions = {
    * {@link https://github.com/google/google-authenticator/wiki/Key-Uri-Format#label Label format}
    */
   label: string
+
   /**
-   * The `secret` key to use for generating the `OTP` code.
+   * The secret key to use for generating the `OTP` code.
    *
-   * The recommended secret length is above `20` bytes.
+   * The recommended `secret` length is above `20` bytes.
    */
-  secret: ArrayBuffer | Uint8Array
+  secret: ArrayBuffer | Uint8Array_
+
   /**
    * The issuer parameter indicating the provider or service this account is associated with.
    */
   issuer?: string
+
   /**
    * The type of code to generate.
    * @default `totp`
    */
   type?: 'totp' | 'hotp'
+
   /**
    * The hashing algorithm to use for generating the `OTP` code.
    * @default `SHA1`
    */
   alg?: 'SHA1' | 'SHA256' | 'SHA512'
+
   /**
    * The number of digits to use for the `OTP` code.
    * @default `6`
@@ -67,8 +75,8 @@ export type OtpAuthUriOptions = {
 /**
  * Generate {@link https://github.com/google/google-authenticator/wiki/Key-Uri-Format otpauth} URI
  *
- * @param {OtpAuthUriOptions} options - The options to use for generating the URI.
- * @returns {URL} The generated `OTP` authentication URI.
+ * @param options - The options to use for generating the URI.
+ * @returns The generated `OTP` authentication URI.
  *
  * @example
  * ```ts

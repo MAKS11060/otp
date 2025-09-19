@@ -1,4 +1,4 @@
-import {DT, generateKey} from './hotp.ts'
+import {DT, generateKey, type HotpOptions} from './hotp.ts'
 
 /**
  * Options for generating a `SteamTOTP` code.
@@ -7,11 +7,13 @@ export interface SteamTotpOptions {
   /**
    * The secret key to use for generating the `SteamTOTP` code.
    */
-  secret: ArrayBuffer | Uint8Array
+  secret: HotpOptions['secret']
+
   /**
    * The counter value to use for generating the `SteamTOTP` code.
    */
   counter?: number
+
   /**
    * The time offset to use for generating the `SteamTOTP` code, in seconds.
    * @default 0
@@ -24,16 +26,24 @@ const chars = '23456789BCDFGHJKMNPQRTVWXY'
 /**
  * Generates a `SteamTOTP` code based on the provided options.
  *
- * @param {SteamTotpOptions} options - The options to use for generating the `SteamTOTP` code.
- * @returns {Promise<string>} A promise that resolves to the generated `SteamTOTP` code.
+ * @param options - The options to use for generating the `SteamTOTP` code.
+ * @returns A promise that resolves to the generated `SteamTOTP` code.
+ *
  * @example
  * ```ts
+ * import {readableTotp, steamTotp} from '@maks11060/otp'
  * import {decodeBase64} from '@std/encoding/base64'
- * import {generateKey, getTimeCounter, steamTotp} from '@maks11060/otp'
  *
  * const secret = decodeBase64('STEAM_SHARED_SECRET')
+ *
+ * // Get code
  * const code = await steamTotp({secret})
- * console.log(code); // "VWFH3"
+ * console.log(code) // "VWFH3"
+ *
+ * // Codes iterator
+ * for await (const {code, timeLeft} of readableTotp(steamTotp, {secret})) {
+ *   console.log({code, timeLeft}) // { code: "KQXVF", timeLeft: 25 }
+ * }
  * ```
  */
 export const steamTotp = async (options: SteamTotpOptions): Promise<string> => {

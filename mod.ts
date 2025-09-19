@@ -8,10 +8,17 @@
  *
  * @example Generate `TOTP`
  * ```ts
- * import {otpauth, totp, totpValidate} from '@maks11060/otp'
+ * import {otpauth, readableTotp, totp, totpValidate} from '@maks11060/otp'
  *
  * const secret = crypto.getRandomValues(new Uint8Array(20))
- * const code = await totp({secret}) // 123456
+ *
+ * // Get code
+ * const code = await totp({secret}) // 380577
+ *
+ * // Codes iterator
+ * for await (const {code, timeLeft} of readableTotp(totp, {secret})) {
+ *   console.log({code, timeLeft}) // { code: "380577", timeLeft: 15 }
+ * }
  *
  * // Create otpauth uri
  * otpauth({secret, issuer: 'App name', label: '@username'}).toString()
@@ -23,7 +30,7 @@
  *
  * @example Generate `HOTP`
  * ```ts
- * import {hotp} from '@maks11060/otp'
+ * import {readableTotp, hotp} from '@maks11060/otp'
  *
  * const secret = crypto.getRandomValues(new Uint8Array(20))
  * const code = await hotp({secret, counter: 1})
@@ -31,24 +38,33 @@
  *
  * @example Generate `SteamTOTP`
  * ```ts
+ * import {readableTotp, steamTotp} from '@maks11060/otp'
  * import {decodeBase64} from '@std/encoding/base64'
- * import {generateKey, getTimeCounter, steamTotp} from '@maks11060/otp'
  *
- * const steamKey = decodeBase64('STEAM_SHARED_SECRET') // Decode key to ArrayBuffer
- * steamTotp(await generateKey(steamKey, getTimeCounter())) // VWFH3
+ * const secret = decodeBase64('STEAM_SHARED_SECRET') // Decode key to ArrayBuffer
+ *
+ * // Get code
+ * const code = await steamTotp({secret})
+ * console.log(code) // "VWFH3"
+ *
+ * // Codes iterator
+ * for await (const {code, timeLeft} of readableTotp(steamTotp, {secret})) {
+ *   console.log({code, timeLeft}) // { code: "KQXVF", timeLeft: 25 }
+ * }
  * ```
  *
  * @module
-*/
+ */
 
 export {generateKey, hotp, type HotpOptions} from './src/hotp.ts'
 export {otpauth, type OtpAuthUriOptions} from './src/otpauth.ts'
+export {readableTotp} from './src/readable.ts'
 export {steamTotp, type SteamTotpOptions} from './src/steamTotp.ts'
 export {
+  getRemainingTime,
   getTimeCounter,
   totp,
-  totpValidate,
   type TotpOptions,
-  type TotpValidateOptions
+  totpValidate,
+  type TotpValidateOptions,
 } from './src/totp.ts'
-

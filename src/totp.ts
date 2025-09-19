@@ -1,4 +1,4 @@
-import {DT, generateKey} from './hotp.ts'
+import {DT, generateKey, type HotpOptions} from './hotp.ts'
 
 /**
  * Options for generating a `TOTP` code.
@@ -7,25 +7,29 @@ export interface TotpOptions {
   /**
    * The secret key to use for generating the `TOTP` code.
    *
-   * The recommended secret length is above `20` bytes.
+   * The recommended `secret` length is above `20` bytes.
    */
-  secret: ArrayBuffer | Uint8Array
+  secret: HotpOptions['secret']
+
   /**
    * The number of digits to use for the `TOTP` code.
    * @default 6
    */
   digits?: 6 | 7 | 8
+
   /**
    * The counter value to use for generating the `TOTP` code.
    *
    * Use current time with step `30` seconds by default.
    */
   counter?: number
+
   /**
    * The time interval in seconds to use for generating the `TOTP` code.
    * @default 30
    */
   stepWindow?: number
+
   /**
    * The hashing algorithm to use for generating the `TOTP` code.
    * @default `SHA-1`
@@ -42,6 +46,7 @@ export interface TotpValidateOptions extends TotpOptions {
    * The `TOTP` code to validate.
    */
   code: string
+
   /**
    * The time correction in multiples of `stepWindow` to use for validating the `TOTP` code.
    *
@@ -52,25 +57,44 @@ export interface TotpValidateOptions extends TotpOptions {
 }
 
 /**
- * Returns the current time interval with the specified `step` size.
- * @param {number} [step=30] - The `step` size in seconds. Defaults to `30`.
- * @returns {number} The current time interval.
+ * Get the remaining expiration time of the TOTP code.
+ *
+ * @param stepWindow The time interval in seconds to use for generating the `TOTP` code. Default `30`
+ * @returns remaining time `TOTP`
  */
-export const getTimeCounter = (step: number = 30): number =>
-  Math.floor(Date.now() / 1000 / step)
+export const getRemainingTime = (stepWindow: number = 30) => {
+  return stepWindow - (Math.floor(Date.now() / 1000) % stepWindow)
+}
+
+/**
+ * Returns the current time interval with the specified `step` size.
+ *
+ * @param step - The `step` size in seconds. Defaults to `30`.
+ * @returns The current time interval.
+ */
+export const getTimeCounter = (step: number = 30): number => {
+  return Math.floor(Date.now() / 1000 / step)
+}
 
 /**
  * Generates a `TOTP` code based on the provided options.
  *
- * @param {TotpOptions} options - The options to use for generating the `TOTP` code.
- * @returns {Promise<string>} A promise that resolves to the generated `TOTP` code.
+ * @param options - The options to use for generating the `TOTP` code.
+ * @returns A promise that resolves to the generated `TOTP` code.
  *
  * @example
  * ```ts
- * import {totp} from '@maks11060/otp'
+ * import {readableTotp, totp} from '@maks11060/otp'
  *
  * const secret = crypto.getRandomValues(new Uint8Array(20))
- * const code = await totp({secret})
+ *
+ * // Get code
+ * const code = await totp({secret}) // 380577
+ *
+ * // Codes iterator
+ * for await (const {code, timeLeft} of readableTotp(totp, {secret})) {
+ *   console.log({code, timeLeft}) // { code: "380577", timeLeft: 15 }
+ * }
  * ```
  */
 export const totp = async (options: TotpOptions): Promise<string> => {
@@ -101,14 +125,13 @@ export const totp = async (options: TotpOptions): Promise<string> => {
  * ```
  */
 export const totpValidate = async (
-  options: TotpValidateOptions
+  options: TotpValidateOptions,
 ): Promise<boolean> => {
   options.window ??= 3
   options.stepWindow ??= 30
   options.counter ??= getTimeCounter(options.stepWindow)
 
-  const check = async (i: number) =>
-    options.code === (await totp({...options, counter: options.counter! + i}))
+  const check = async (i: number) => options.code === (await totp({...options, counter: options.counter! + i}))
 
   for (let i = 0; i < options.window; i++) {
     if ((await check(i)) || (await check(-i - 1))) {

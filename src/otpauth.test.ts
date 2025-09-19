@@ -14,6 +14,6 @@ Deno.test('create otpauth uri', () => {
 
   assertEquals(
     uri.toString(),
-    'otpauth://totp/label?secret=GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ&algorithm=SHA1&issuer=iss'
+    'otpauth://totp/label?secret=GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ&algorithm=SHA1&issuer=iss',
   )
 })

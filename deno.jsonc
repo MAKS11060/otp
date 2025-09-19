@@ -17,13 +17,19 @@
     "@std/encoding": "jsr:@std/encoding@^1.0.7"
   },
   "exports": {
-    ".": "./mod.ts",
-    "./readable": "./src/stream/readable.ts"
+    ".": "./mod.ts"
+  },
+  "fmt": {
+    "lineWidth": 120,
+    "newLineKind": "system",
+    "quoteProps": "asNeeded",
+    "semiColons": false,
+    "singleQuote": true,
+    "spaceSurroundingProperties": false
   },
   "publish": {
     "exclude": [
       ".github",
-      "test",
       "**/*.test.ts"
     ]
   }
