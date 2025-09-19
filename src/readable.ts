@@ -1,6 +1,13 @@
 import {delay} from '@std/async/delay'
-import type {Uint8Array_} from './types.ts'
 import {getRemainingTime} from './totp.ts'
+import type {Uint8Array_} from './types.ts'
+
+interface ReadableTotpOptions {
+  /**
+   * @default 1000 ms
+   */
+  updateInterval?: number
+}
 
 /**
  * An object containing the remaining time and the `TOTP` code.
@@ -27,6 +34,8 @@ export interface TotpCode {
  * ```ts
  * import {readableTotp, totp} from '@maks11060/otp'
  *
+ * const secret = new Uint8Array(20)
+ *
  * for await (const {code, timeLeft} of readableTotp(totp, {secret})) {
  *   console.log({code, timeLeft}) // { code: "380577", timeLeft: 15 }
  * }
@@ -40,12 +49,7 @@ export async function* readableTotp<
   },
 >(
   fn: (options: T) => Promise<string>,
-  options: T & {
-    /**
-     * @default 1000 ms
-     */
-    updateInterval?: number
-  },
+  options: T & ReadableTotpOptions,
 ): AsyncGenerator<TotpCode> {
   const stepWindow = options.stepWindow ?? 30
   const updateInterval = options.updateInterval ?? 1000

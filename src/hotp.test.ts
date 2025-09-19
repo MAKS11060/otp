@@ -5,12 +5,12 @@ import {generateKey, hotp} from './hotp.ts'
 const encoder = new TextEncoder()
 const secret = encoder.encode('12345678901234567890') // test secret
 
-Deno.test('Generate key', async () => {
+Deno.test('generateKey', async () => {
   const key = await generateKey(secret, 0)
   assertEquals(encodeHex(key), 'cc93cf18508d94934c64b65d8ba7667fb7cde4b0')
 })
 
-Deno.test('Generate hotp', async () => {
+Deno.test('hotp', async () => {
   // Test values from: https://datatracker.ietf.org/doc/html/rfc4226
   const codes = [
     '755224',

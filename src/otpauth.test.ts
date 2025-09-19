@@ -4,7 +4,7 @@ import {otpauth} from './otpauth.ts'
 const encoder = new TextEncoder()
 const secret = encoder.encode('12345678901234567890') // test secret: https://datatracker.ietf.org/doc/html/rfc6238
 
-Deno.test('create otpauth uri', () => {
+Deno.test('otpauth', () => {
   const uri = otpauth({
     secret,
     type: 'totp',

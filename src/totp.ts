@@ -111,8 +111,8 @@ export const totp = async (options: TotpOptions): Promise<string> => {
 /**
  * Validates a `TOTP` code based on the provided options.
  *
- * @param {TotpValidateOptions} options - The options to use for validating the TOTP code.
- * @returns {Promise<boolean>} A promise that resolves to `true` if the code is valid, `false` otherwise.
+ * @param options - The options to use for validating the TOTP code.
+ * @returns A promise that resolves to `true` if the code is valid, `false` otherwise.
  *
  * @example
  * ```ts

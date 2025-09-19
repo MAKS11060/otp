@@ -59,7 +59,7 @@ const secret = decodeBase64('STEAM_SHARED_SECRET') // Decode key to ArrayBuffer
 
 // Get code
 const code = await steamTotp({secret})
-console.log(code) // "VWFH3"
+console.log(code) // "KQXVF"
 
 // Codes iterator
 for await (const {code, timeLeft} of readableTotp(steamTotp, {secret})) {
