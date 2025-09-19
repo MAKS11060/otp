@@ -124,9 +124,7 @@ export const totp = async (options: TotpOptions): Promise<string> => {
  * await totpValidate({secret, code}) // true
  * ```
  */
-export const totpValidate = async (
-  options: TotpValidateOptions,
-): Promise<boolean> => {
+export const totpValidate = async (options: TotpValidateOptions): Promise<boolean> => {
   options.window ??= 3
   options.stepWindow ??= 30
   options.counter ??= getTimeCounter(options.stepWindow)
