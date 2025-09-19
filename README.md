@@ -2,18 +2,18 @@
 
 ### Collection of one-time password algorithms
 
-[![JSR][JSR badge]][JSR] [![CI][CI badge]][CI]
+[![JSR](https://jsr.io/badges/@maks11060/otp)](https://jsr.io/@maks11060/otp)
+[![JSR Score](https://jsr.io/badges/@maks11060/otp/score)](https://jsr.io/@maks11060/otp)
+[![JSR Scope](https://jsr.io/badges/@maks11060)](https://jsr.io/@maks11060)
+[![CI](https://github.com/MAKS11060/otp/actions/workflows/ci.yml/badge.svg)](https://github.com/MAKS11060/otp/actions/workflows/ci.yml)
 
-[JSR]: https://jsr.io/@maks11060/otp
-[JSR badge]: https://jsr.io/badges/@maks11060/otp
-[CI]: https://github.com/MAKS11060/otp/actions/workflows/ci.yml
-[CI badge]: https://github.com/maks11060/otp/actions/workflows/ci.yml/badge.svg
+## Features
 
-## Supported Algorithms
-
-- [HOTP](https://datatracker.ietf.org/doc/html/rfc4226)
-- [TOTP](https://datatracker.ietf.org/doc/html/rfc6238)
-- SteamTOTP
+- Generate [`HOTP`](https://datatracker.ietf.org/doc/html/rfc4226),
+  [`TOTP`](https://datatracker.ietf.org/doc/html/rfc6238), `SteamTOTP`
+- Validate `TOTP` with the time offset
+- Create `TOTP` Iterator
+- Create [`otpauth`](https://github.com/google/google-authenticator/wiki/Key-Uri-Format) uri
 
 ## Usage
 
