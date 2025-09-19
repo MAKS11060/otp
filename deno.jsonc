@@ -4,17 +4,11 @@
   "lock": false,
   "tasks": {
     "test": "deno test",
-    "publish-dry-run": "deno publish --dry-run",
-    "ci": {
-      "dependencies": [
-        "test",
-        "publish-dry-run"
-      ]
-    }
+    "ok": "deno fmt --check && deno task test && deno publish --dry-run --allow-dirty"
   },
   "imports": {
-    "@std/async": "jsr:@std/async@^1.0.10",
-    "@std/encoding": "jsr:@std/encoding@^1.0.7"
+    "@std/async": "jsr:@std/async@^1.0.14",
+    "@std/encoding": "jsr:@std/encoding@^1.0.10"
   },
   "exports": {
     ".": "./mod.ts"
@@ -30,6 +24,7 @@
   "publish": {
     "exclude": [
       ".github",
+      ".vscode",
       "**/*.test.ts"
     ]
   }
